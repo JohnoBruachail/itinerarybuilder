@@ -22,7 +22,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  
 
   # GET /profiles/new
   def new
