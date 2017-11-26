@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  itinerary: one
+  starts_at: 2017-11-26 17:04:10
+  ends_at: 2017-11-26 17:04:10
+  carrier: MyString
+  starting_location: MyString
+  ending_location: MyString
+  confirmation_number: MyString
+  seat_number: MyString
+
+two:
+  itinerary: two
+  starts_at: 2017-11-26 17:04:10
+  ends_at: 2017-11-26 17:04:10
+  carrier: MyString
+  starting_location: MyString
+  ending_location: MyString
+  confirmation_number: MyString
+  seat_number: MyString
