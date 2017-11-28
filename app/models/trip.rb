@@ -14,7 +14,7 @@ class Trip < ApplicationRecord
           new_trip.confirmation_number = confirmation_number
           new_trip.seat_number = seat_number
           # new_trip.itinerary = itinerary
-      )
+      end
       trip.save!
   end
 end
