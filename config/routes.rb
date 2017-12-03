@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'itinerary/new'
+
+  get 'itinerary/current'
+
   resources :profiles
   devise_for :users
   root :to =>'home#index'  
