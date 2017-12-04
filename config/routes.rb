@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  # get 'itinerary/new'
+  get 'itinerary/new'
 
-  # get 'itinerary/current'
+  get 'itinerary/show'
  
-  resources :itinerary, only[:new, :show, index]
+ # resources :itinerary, only[:new, :show, index]
   resources :profiles
   devise_for :users
   root :to =>'home#index'  
