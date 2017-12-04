@@ -5,9 +5,11 @@ class Trip < ApplicationRecord
     puts "++++++++++++++++++++++++++++++++++++++++"
     puts message.body.inspect
     puts "++++++++++++++++++++++++++++++++++++++++"
-    message = # create a message using the same fields as returned by inspect
+      binding.pry
+
+    # message = # create a message using the same fields as returned by inspect
     
-      starts_at = message.body # find the start at time inside the body string, using regular expressions
+    #   starts_at = message.body # find the start at time inside the body string, using regular expressions
       # (try using IDs or something like that to determine easily where is each value you need).
       
  #     trip = Trip.new do |new_trip|
@@ -21,7 +23,7 @@ class Trip < ApplicationRecord
           # new_trip.itinerary = itinerary
  #     end
   #John's parser:
-  
+
           @email = message
         
         #take from DB
@@ -96,10 +98,8 @@ class Trip < ApplicationRecord
 
         @user = User.find(params[@email.from])
         
-        @itinerary = @user.itinerary.build(params.require(:itinerary).permit(:email))
-     
+        @itinerary = @user.itinerary.build(params.require(:itinerary).permit(:email))binding.pry        
         @itinerary.save!
-        
         @trip = @itinerary.trips.build(params.require(:trip).permit(:confirmationNumber, :startTime, :startDate, :endTime, :endDate, :seatNumber, :carrier, :type))
         
         @trip.save
