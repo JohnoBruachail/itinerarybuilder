@@ -4,15 +4,14 @@ class Trip < ApplicationRecord
   def self.receive_mail(message)
 
     puts "++++++++++++++++++++++++++++++++++++++++"
-    
-    byebug
+
     puts message.body.inspect
     puts "++++++++++++++++++++++++++++++++++++++++"
-      
-
-    # message = # create a message using the same fields as returned by inspect
     
-    #   starts_at = message.body # find the start at time inside the body string, using regular expressions
+
+    #message = # create a message using the same fields as returned by inspect
+    
+    #  starts_at = message.body # find the start at time inside the body string, using regular expressions
       # (try using IDs or something like that to determine easily where is each value you need).
       
  #     trip = Trip.new do |new_trip|
@@ -28,6 +27,7 @@ class Trip < ApplicationRecord
   #John's parser:
 
           @email = message
+
         
         #take from DB
         airplane = ["plane", "airplane", "flight"]
@@ -39,7 +39,8 @@ class Trip < ApplicationRecord
         buscarrier = ["bus eireann", "matthews"]
         
         confirmationNo = ["confirmationNumber:", "Number"]
-
+        type = ""
+                      binding.pry
         airplane.each do |word|
             if @email.body.include?(word)
                 type = word
@@ -56,7 +57,7 @@ class Trip < ApplicationRecord
             end
         end
  
-        if type == "plane"
+        if type.present? && type == "plane"
             airlines.each do |word|
                 if @email.body.include?(word)
                     carrier = word
@@ -66,7 +67,7 @@ class Trip < ApplicationRecord
             startLocation = @email.body[/\b[A-Z]/, 0]
             endLocation = @email.body[/\b[A-Z]/, 1]
 
-        elsif type == "train"
+        elsif type.present? && type == "train"
             traincarrier.each do |word|
                 if @email.body.include?(word)
                     carrier = word
@@ -74,7 +75,7 @@ class Trip < ApplicationRecord
             end
             
             
-        elsif type == "bus"
+        elsif type.present? && type == "bus"
             buscarrier.each do |word|
                 if @email.body.include?(word)
                     carrier = word
@@ -101,11 +102,11 @@ class Trip < ApplicationRecord
 
         @user = User.find(params[@email.from])
         
-        @itinerary = @user.itinerary.build(params.require(:itinerary).permit(:email))binding.pry        
+        @itinerary = @user.itinerary.build(params.require(:itinerary).permit(:email))  
         @itinerary.save!
         @trip = @itinerary.trips.build(params.require(:trip).permit(:confirmationNumber, :startTime, :startDate, :endTime, :endDate, :seatNumber, :carrier, :type))
         
-        @trip.save
+        @trip.save!
 
     end
 end
