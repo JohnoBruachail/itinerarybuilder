@@ -56,8 +56,8 @@ class Trip < ApplicationRecord
                 type = word
             end
         end
- 
-        if type.present? && type == "plane"
+        carrier = ""
+        if type.present? && airplane.include? type
             airlines.each do |word|
                 if @email.body.include?(word)
                     carrier = word
@@ -102,10 +102,17 @@ class Trip < ApplicationRecord
 
         @user = User.find(params[@email.from])
         
-        @itinerary = @user.itinerary.build(params.require(:itinerary).permit(:email))  
+        @itinerary = @user.itineraries.new
         @itinerary.save!
-        @trip = @itinerary.trips.build(params.require(:trip).permit(:confirmationNumber, :startTime, :startDate, :endTime, :endDate, :seatNumber, :carrier, :type))
-        
+        @trip = @itinerary.trips.new(
+            starts_at: startTime,
+            ends_at: endTime,
+            carrier: carrier,
+            starting_location: startLocation,
+            ending_location: endLocation,
+            confirmation_number: confirmationNumber
+        )
+       
         @trip.save!
 
     end
