@@ -2,10 +2,13 @@ class Trip < ApplicationRecord
   belongs_to :itinerary
   
   def self.receive_mail(message)
+
     puts "++++++++++++++++++++++++++++++++++++++++"
+    
+    byebug
     puts message.body.inspect
     puts "++++++++++++++++++++++++++++++++++++++++"
-      binding.pry
+      
 
     # message = # create a message using the same fields as returned by inspect
     
