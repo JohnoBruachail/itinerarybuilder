@@ -7,6 +7,9 @@ end
 
 ruby '2.4.0'
 
+#debugging gem
+gem 'pry-rails'
+
 gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
