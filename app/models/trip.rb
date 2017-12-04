@@ -40,7 +40,7 @@ class Trip < ApplicationRecord
         
         confirmationNo = ["confirmationNumber:", "Number"]
         type = ""
-                      binding.pry
+                  
         airplane.each do |word|
             if @email.body.include?(word)
                 type = word
