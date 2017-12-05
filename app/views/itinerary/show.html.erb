@@ -1,11 +1,10 @@
 <h1>Your Current Itinerary</h1>
 <% if @trip.present? %>
-    <%= Starts At: @trip.starts_at %>
-    <%= Ends At: @trip.ends_at %>
-    <%= Carrier: @trip.carrier %>
-    <%= Starting Location: @trip.starting_location %>
-    <%= Ending Location: @trip.ending_location %>
-    <%= Confirmation Number: @trip.confirmation_number %>
-    <%= Seat Number: @trip.seat_number %>
+    <p>Starts At:<%= @trip.starts_at %></p>
+    <p>Ends At:<%= @trip.ends_at %></p>
+    <p>Carrier: <%= @trip.carrier %></p>
+    <p>Starting Location: <%= @trip.starting_location %></p>
+    <p>Ending Location: <%= @trip.ending_location %></p>
+    <p>Confirmation Number: <%= @trip.confirmation_number %></p>
+    <p>Seat Number:<%= @trip.seat_number %></p>
 <% end %>
-    
