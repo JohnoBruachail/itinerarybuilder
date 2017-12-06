@@ -46,7 +46,6 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       if @profile.save
-        UserMailer.registration_confirmation(@user).deliver
         format.html { redirect_to @profile, notice: 'Profile was successfully created. Please confirm your email address.' }
         format.json { render :show, status: :created, location: @profile }
       else
