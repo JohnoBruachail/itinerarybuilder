@@ -46,7 +46,8 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       if @profile.save
-        format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
+        UserMailer.registration_confirmation(@user).deliver
+        format.html { redirect_to @profile, notice: 'Profile was successfully created. Please confirm your email address.' }
         format.json { render :show, status: :created, location: @profile }
       else
         format.html { render :new }
@@ -54,6 +55,20 @@ class ProfilesController < ApplicationController
       end
     end
   end
+
+  def confirm_email
+    user = User.find_by_confirm_token(params[id])
+    if user
+      user.email_activate
+      flash[:success] = 'Welcome to Itinerary Builder!  Your accout has now been confirmed.'
+    else
+      flash[:error] = 'Error: User does not exist.'
+      redirect_to root_url
+    end
+  end
+  
+      
+      
 
   # PATCH/PUT /profiles/1
   # PATCH/PUT /profiles/1.json
