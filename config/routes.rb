@@ -2,7 +2,13 @@ Rails.application.routes.draw do
  
   resources :itinerary, only: [:new, :show, :index]
   resources :profiles
-  devise_for :users
+  devise_for :users do
+    member do
+      get :confirmation_email
+    end
+  end
+  
+  
   root :to =>'home#index'  
   get 'home/index'
   

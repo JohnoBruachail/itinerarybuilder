@@ -89,6 +89,8 @@ class Trip < ApplicationRecord
             ending_location: endLocation,
             confirmation_number: confirmationNumber
         )
+       puts"$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+       puts @trip.inspect
        
         @trip.save!
 
