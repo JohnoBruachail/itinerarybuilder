@@ -2,97 +2,90 @@ class Trip < ApplicationRecord
   belongs_to :itinerary
   
   def self.receive_mail(message)
-
-          @email = message
-
+        puts "++++++++++++++++++++++++++++++++++"
+        puts message.body.inspect
+        puts "++++++++++++++++++++++++++++++++++"
         
         #take from DB
         airplane = ["plane", "airplane", "flight"]
-        train = ["train", "rail" ]
-        bus = [""]
+        train = ["train", "rail"]
+        bus = ["bus"]
         
         airlines = ["aer lingus", "asl airlines ireland", "cityjet", "norwegian air international", "ryanair", "stobard air"]
-        railcarrier = ["dart", "northern commuter", "south eastern commuter", "south western commuter", "western commuter"]
-        buscarrier = ["bus eireann", "matthews"]
+        railcarriers = ["dart", "northern commuter", "south eastern commuter", "south western commuter", "western commuter"]
+        buscarriers = ["bus eireann", "matthews"]
+
+        @user = User.find_by email: message.from
         
-        confirmationNo = ["confirmationNumber:", "Number"]
-        type = ""
-                  
+        @itinerary = Itinerary.new(user: @user)
+        
+        @itinerary.save!
+        
+        trip = Trip.new(itinerary: @itinerary)
+        
         airplane.each do |word|
-            if @email.body.include?(word)
-                type = word
+            if message.body.include?(word)
+                trip.type_name = "plane"
             end
         end
         train.each do |word|
-            if @email.body.include?(word)
-                type = word
+            if message.body.include?(word)
+                trip.type_name = "train"
             end  
         end
         bus.each do |word|
-            if @email.body.include?(word)
-                type = word
+            if message.body.include?(word)
+                trip.type_name = "bus"
             end
         end
-        carrier = ""
-        if type.present? && airplane.include?(type)
+ 
+        if trip.type_name == "plane"
             airlines.each do |word|
-                if @email.body.include?(word)
-                    carrier = word
+                if message.body.include?(word)
+                    trip.carrier = word
                 end
             end
-            
-            startLocation = @email.body[/\b[A-Z]/, 0]
-            endLocation = @email.body[/\b[A-Z]/, 1]
 
-        elsif type.present? && type == "train"
-            traincarrier.each do |word|
-                if @email.body.include?(word)
-                    carrier = word
+        elsif trip.type_name == "train"
+            railcarriers.each do |word|
+                if message.body.include?(word)
+                    trip.carrier = word
                 end
             end
             
-            
-        elsif type.present? && type == "bus"
-            buscarrier.each do |word|
-                if @email.body.include?(word)
-                    carrier = word
+        elsif trip.type_name == "bus"
+            buscarriers.each do |word|
+                if message.body.include?(word)
+                    trip.carrier = word
                 end
             end
-            
-            
         end
         
-        confirmationNo.each do |word|
-            if @email.body.match(/#{word}\/(\w*/)[1]
-                #take the value after that word
-                confirmationNumber = word
-            end
+        conf_num = message.body.match(/[a-zA-Z]{3}\d{4}/)
+        if conf_num
+            trip.confirmation_number = conf_num[0]
         end
+        string = message.body.to_s
+        
+        times = string.scan(/(\d:\d\d[a|p]|\d\d:\d\d[a|p])/)
+        starts_at_time = times[0][0]
+        ends_at_time = times[1][0]
 
-        startTime = @email.body[/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, 0]
+        locations = string.scan(/[A-Z]{3}\b/)
+        trip.starting_location = locations[0]
+        trip.ending_location = locations[1]
         
-        endTime = @email.body[/^([0-1][0-9]|[2][0-3]):([0-5][0-9])$/, 1]
-        
-        startDate = @email.body[/\d{1,2}\/\d{1,2}\/\d{4}/, 0]
-        
-        endDate = @email.body[/\d{1,2}\/\d{1,2}\/\d{4}/, 1]
+        dates = string.scan(/\d{2}\/\d{2}\/\d{2}/)
+        starts_at_date = dates[0]
+        ends_at_date = dates[1]
 
-        @user = User.find(params[@email.from])
-        
-        @itinerary = @user.itineraries.new
-        @itinerary.save!
-        @trip = @itinerary.trips.new(
-            starts_at: startTime,
-            ends_at: endTime,
-            carrier: carrier,
-            starting_location: startLocation,
-            ending_location: endLocation,
-            confirmation_number: confirmationNumber
-        )
+        trip.starts_at =  starts_at_time + starts_at_date
+        trip.ends_at = ends_at_time + ends_at_date
+
        puts"$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-       puts @trip.inspect
+       puts trip.inspect
        
-        @trip.save!
+        trip.save!
 
     end
-end
+end 

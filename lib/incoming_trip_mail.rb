@@ -15,4 +15,5 @@ Mailman::Application.run do
       Mailman.logger.error [e, *e.backtrace].join("\n")
     end
   end
+  
 end

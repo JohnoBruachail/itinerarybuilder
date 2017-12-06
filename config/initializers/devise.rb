@@ -204,7 +204,6 @@ Devise.setup do |config|
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
   config.reset_password_within = 6.hours
-
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
   # config.sign_in_after_reset_password = true
@@ -267,7 +266,7 @@ Devise.setup do |config|
   # The following options are available, assuming the engine is mounted as:
   #
   #     mount MyEngine, at: '/my_engine'
-  #
+  config.router_name = :main_app
   # The router that invoked `devise_for`, in the example above, would be:
   # config.router_name = :my_engine
   #

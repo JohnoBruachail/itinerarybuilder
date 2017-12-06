@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171126170410) do
+ActiveRecord::Schema.define(version: 20171206211506) do
 
   create_table "itineraries", force: :cascade do |t|
     t.integer "user_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20171126170410) do
     t.string "seat_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type_name"
     t.index ["itinerary_id"], name: "index_trips_on_itinerary_id"
   end
 
